@@ -3,7 +3,7 @@ package repositories
 import (
 	"database/sql"
 	"errors"
-	"go-categories-api/internal/models"
+	"store-api-go/internal/models"
 )
 
 type ProductRepo struct {
@@ -15,7 +15,7 @@ func NewProductRepo(db *sql.DB) *ProductRepo {
 }
 
 func (repo *ProductRepo) GetAll(name string) ([]models.Product, error) {
-	query := "SELECT id, name, description FROM products"
+	query := "SELECT id, name, price, stock FROM products"
 
 	var args []interface{}
 	if name != "" {
@@ -29,17 +29,17 @@ func (repo *ProductRepo) GetAll(name string) ([]models.Product, error) {
 	}
 	defer rows.Close()
 
-	categories := make([]models.Product, 0)
+	products := make([]models.Product, 0)
 	for rows.Next() {
 		var product models.Product
 		err := rows.Scan(&product.ID, &product.Name, &product.Price, &product.Stock)
 		if err != nil {
 			return nil, err
 		}
-		categories = append(categories, product)
+		products = append(products, product)
 	}
 
-	return categories, nil
+	return products, nil
 }
 
 func (repo *ProductRepo) Create(product *models.Product) error {
@@ -65,7 +65,7 @@ func (repo *ProductRepo) GetByID(id int) (*models.Product, error) {
 }
 
 func (repo *ProductRepo) Update(product *models.Product) error {
-	query := "UPDATE categories SET name = $1, price = $2, stock = $3, WHERE id = $4"
+	query := "UPDATE products SET name = $1, price = $2, stock = $3, WHERE id = $4"
 	result, err := repo.db.Exec(query, product.Name, product.Price, product.Stock, product.ID)
 	if err != nil {
 		return err

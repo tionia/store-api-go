@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"encoding/json"
-	"go-categories-api/internal/models"
-	"go-categories-api/internal/services"
 	"net/http"
+	"store-api-go/internal/models"
+	"store-api-go/internal/services"
 	"strconv"
 	"strings"
 )

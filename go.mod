@@ -1,4 +1,4 @@
-module go-categories-api
+module store-api-go
 
 go 1.24.0
 

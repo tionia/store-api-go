@@ -3,14 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"go-categories-api/internal/database"
-	"go-categories-api/internal/handlers"
-	"go-categories-api/internal/models"
-	"go-categories-api/internal/repositories"
-	"go-categories-api/internal/services"
 	"log"
 	"net/http"
 	"os"
+	"store-api-go/internal/database"
+	"store-api-go/internal/handlers"
+	"store-api-go/internal/models"
+	"store-api-go/internal/repositories"
+	"store-api-go/internal/services"
 	"strings"
 
 	"github.com/spf13/viper"
@@ -59,9 +59,14 @@ func main() {
 	categoryRepo := repositories.NewCategoryRepo(db)
 	categoryService := services.NewCategoryService(categoryRepo)
 	categoryHandler := handlers.NewCategoryHandler(categoryService)
+
 	productRepo := repositories.NewProductRepo(db)
 	productService := services.NewProductService(productRepo)
 	productHandler := handlers.NewProductHandler(productService)
+
+	transactionRepo := repositories.NewTransactionRepo(db)
+	transactionService := services.NewTransactionService(transactionRepo)
+	transactionHandler := handlers.NewTransactionHandler(transactionService)
 
 	// Setup routes
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
@@ -77,6 +82,10 @@ func main() {
 
 	http.HandleFunc("/api/products", productHandler.HandleProducts)
 	http.HandleFunc("/api/products/", productHandler.HandleProductByID)
+
+	http.HandleFunc("/api/checkout", transactionHandler.HandleCheckout)
+
+	http.HandleFunc("/api/report/hari-ini", transactionHandler.HandleReportToday)
 
 	// Serve the api
 	address := config.BaseURL + ":" + config.Port

@@ -3,7 +3,7 @@ package repositories
 import (
 	"database/sql"
 	"errors"
-	"go-categories-api/internal/models"
+	"store-api-go/internal/models"
 )
 
 type CategoryRepo struct {

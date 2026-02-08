@@ -2,8 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"go-categories-api/internal/models"
 	"net/http"
+	"store-api-go/internal/models"
 )
 
 func healthCheck(w http.ResponseWriter, r *http.Request) {

@@ -1,8 +1,8 @@
 package services
 
 import (
-	"go-categories-api/internal/models"
-	"go-categories-api/internal/repositories"
+	"store-api-go/internal/models"
+	"store-api-go/internal/repositories"
 )
 
 type CategoryService struct {
